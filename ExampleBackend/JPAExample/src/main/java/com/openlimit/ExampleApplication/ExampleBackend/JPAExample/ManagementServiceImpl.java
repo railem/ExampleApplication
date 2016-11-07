@@ -20,6 +20,27 @@ public class ManagementServiceImpl {
 //		testTestData();
 	}
 	
+	private String usernamesString;
+	public String getUsernames(){
+		
+		usernamesString = "";
+		
+		em.getTransaction().begin();
+		
+		String queryString = "SELECT u FROM User u";
+		TypedQuery<User> query = em.createQuery(queryString, User.class);
+		List<User> results = query.getResultList();
+		results.forEach(u -> {
+			usernamesString = usernamesString + u.getUsername() + "; ";
+		});
+			
+        em.getTransaction().commit();
+        em.close();
+		
+		
+		return usernamesString;
+	}
+	
 	public void createUser(String name, String email){
 		User user = new User( name, email );
 		

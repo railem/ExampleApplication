@@ -10,4 +10,8 @@ public class ManagementServiceSessionBean {
 	public void createUser(String name, String email){
 		impl.createUser(name, email);
 	}
+	
+	public String getUsernames(){
+		return impl.getUsernames();
+	}
 }
