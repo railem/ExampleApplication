@@ -93,6 +93,7 @@
         	</groupId>
         	<artifactId>JPAExample</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
+			<!--<classifier>classes</classifier>-->
         </dependency>
     </dependencies>
 
