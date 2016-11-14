@@ -137,4 +137,86 @@ public class RestClient {
 		}
 
 	}
+
+	public void addUser(String name, String mail) {
+		try {
+			URL url = new URL("http://localhost:8081/RestExample/rest/addUser2");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
+
+			String input = "{\"qty\":100,\"name\":\"iPad 4\"}";
+			
+			OutputStream os = conn.getOutputStream();
+			os.write(name.getBytes());
+			os.flush();
+
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+				throw new RuntimeException("Failed : HTTP error code : "
+					+ conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+
+			String output;
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+			}
+
+			conn.disconnect();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String getUserByName(String name) {
+		try {
+			URL url = new URL("http://localhost:8081/RestExample/rest/getUserByName");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
+			
+			OutputStream os = conn.getOutputStream();
+			os.write(name.getBytes());
+			os.flush();
+
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				throw new RuntimeException("Failed : HTTP error code : "
+					+ conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+
+			String output;
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+				return output;
+			}
+
+			conn.disconnect();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
 }

@@ -8,6 +8,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import com.google.gson.Gson;
+
 public class ManagementServiceImpl {
 	
 	private EntityManagerFactory emf;
@@ -18,6 +20,7 @@ public class ManagementServiceImpl {
 		
 //		createTestData();
 //		testTestData();
+//		System.out.println(getUserByName("r.iven"));
 	}
 	
 	private String usernamesString;
@@ -142,5 +145,30 @@ public class ManagementServiceImpl {
 		emf = Persistence.createEntityManagerFactory("JPAExample");
 		em = emf.createEntityManager();
 		
+	}
+
+	String userJson = "";
+	public String getUserByName(String name) {
+		em.getTransaction().begin();
+		
+		Gson gson = new Gson();
+		
+		String queryString = "SELECT u FROM User u WHERE u.username = '"+name+"'";
+		TypedQuery<User> query = em.createQuery(queryString, User.class);
+		List<User> results = query.getResultList();
+		results.forEach(u -> {
+			userJson = gson.toJson(u);
+		});
+			
+//        em.getTransaction().commit();
+        em.close();
+		
+		System.out.println("USER JSON ============ "+userJson);
+		return userJson;
+	}
+
+	public String updateUser(String json) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

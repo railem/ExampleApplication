@@ -22,4 +22,12 @@ public class ManagementServiceSessionBean {
 	public String addUser(String name){
 		return impl.addUser(name);
 	}
+	
+	public String getUserByName(String name){
+		return impl.getUserByName(name);
+	}
+	
+	public String updateUser(String json){
+		return impl.updateUser(json);
+	}
 }

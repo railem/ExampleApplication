@@ -7,6 +7,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -14,13 +15,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.openlimit.ExampleApplication.ExampleFrontend.*;
 import com.openlimit.ExampleApplication.ExampleFrontend.RestClient.RestClient;
 
-/**
- * This UI is the application entry point. A UI may either represent a browser window 
- * (or tab) or some part of a html page where a Vaadin application is embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be 
- * overridden to add component to the user interface and initialize non-component functionality.
- */
 @Theme("mytheme")
 public class MyUI extends UI {
 
@@ -30,6 +24,7 @@ public class MyUI extends UI {
         RestClient app = new RestClient();
         
         final TextField name = new TextField();
+        name.setWidth("600px");
         name.setCaption("Rest Answer:");
 
         Button button = new Button("Request Users");
@@ -48,10 +43,24 @@ public class MyUI extends UI {
         	app.postRest(tf.getValue());
         });
         
-        //---
-        //---
         
-        layout.addComponents(name, button, button2, new VerticalLayout(tf, button3));
+        final TextField jsonUser = new TextField("User JSON:");
+        final TextField usertf = new TextField("get user by name:");
+        Button button4 = new Button("get");
+        button4.addClickListener( e -> {
+        	String json = app.getUserByName(usertf.getValue());
+        	jsonUser.setValue(json);
+        });
+        
+        Button button5 = new Button("update");
+        button5.addClickListener( e -> {
+//        	String json = app.getUserByName(usertf.getValue());
+//        	jsonUser.setValue(json);
+        });
+
+        
+        layout.addComponents(name, button, button2, new HorizontalLayout(tf, button3),new HorizontalLayout(usertf, button4),
+        		new HorizontalLayout(jsonUser, button5));
         layout.setMargin(true);
         layout.setSpacing(true);
         

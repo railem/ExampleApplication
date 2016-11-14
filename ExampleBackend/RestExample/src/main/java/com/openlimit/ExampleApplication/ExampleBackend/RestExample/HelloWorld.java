@@ -28,13 +28,6 @@ import javax.ws.rs.core.Response;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.ManagementServiceImpl;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
 
-/**
- * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
- * is enabled
- *
- * @author gbrey@redhat.com
- *
- */
 
 @Produces(MediaType.TEXT_HTML)
 @Path("/")
@@ -97,6 +90,30 @@ public class HelloWorld {
     	ManagementServiceImpl msi = new ManagementServiceImpl();
     	
  		String result = msi.addUser(name);
+ 		return Response.status(201).entity(result).build();
+
+ 	}
+    
+    @POST
+ 	@Path("/getUserByName")
+ 	@Consumes("application/json")
+ 	public String getUserByName(String name) {
+
+    	ManagementServiceImpl msi = new ManagementServiceImpl();
+    	
+ 		String result = msi.getUserByName(name);
+ 		return result;
+
+ 	}
+    
+    @POST
+ 	@Path("/updateUser")
+ 	@Consumes("application/json")
+ 	public Response updateUser(String json) {
+
+    	ManagementServiceImpl msi = new ManagementServiceImpl();
+    	
+ 		String result = msi.updateUser(json);
  		return Response.status(201).entity(result).build();
 
  	}
