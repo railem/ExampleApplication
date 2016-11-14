@@ -14,4 +14,12 @@ public class ManagementServiceSessionBean {
 	public String getUsernames(){
 		return impl.getUsernames();
 	}
+	
+	public String getTeams(){
+		return impl.getTeams();
+	}
+	
+	public String addUser(String name){
+		return impl.addUser(name);
+	}
 }

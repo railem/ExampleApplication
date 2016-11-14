@@ -27,22 +27,31 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
+        RestClient app = new RestClient();
         
         final TextField name = new TextField();
-        name.setCaption("Type your name here:");
+        name.setCaption("Rest Answer:");
 
-        Button button = new Button("Click Me");
+        Button button = new Button("Request Users");
         button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
+            name.setValue(app.getFromRest("users"));
+        });
+        
+        Button button2 = new Button("Request Teams");
+        button2.addClickListener( e -> {
+        	name.setValue(app.getFromRest("teams"));
+        });
+        
+        final TextField tf = new TextField();
+        Button button3 = new Button("add User");
+        button3.addClickListener( e -> {
+        	app.postRest(tf.getValue());
         });
         
         //---
-        RestClient app = new RestClient();
-        layout.addComponent(new Label(app.getUsers()));
         //---
         
-        layout.addComponents(name, button);
+        layout.addComponents(name, button, button2, new VerticalLayout(tf, button3));
         layout.setMargin(true);
         layout.setSpacing(true);
         

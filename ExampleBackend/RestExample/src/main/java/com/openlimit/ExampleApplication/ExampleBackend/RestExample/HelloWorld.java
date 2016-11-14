@@ -17,12 +17,16 @@
 package com.openlimit.ExampleApplication.ExampleBackend.RestExample;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.ManagementServiceImpl;
+import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
 
 /**
  * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
@@ -67,10 +71,33 @@ public class HelloWorld {
     
     @GET
     @Path("/users")
+    @Produces({ MediaType.TEXT_PLAIN })
     public String getUsernames() {
     	
     	ManagementServiceImpl msi = new ManagementServiceImpl();
     	
-        return "<h1>" + msi.getUsernames() + "</h1>";
+        return msi.getUsernames();
     }
+    
+    @GET
+    @Path("/teams")
+    @Produces({ MediaType.TEXT_PLAIN })
+    public String getTeams() {
+    	
+    	ManagementServiceImpl msi = new ManagementServiceImpl();
+    	
+        return msi.getTeams();
+    }
+    
+    @POST
+ 	@Path("/addUser")
+ 	@Consumes("text/plain")
+ 	public Response addUser(String name) {
+
+    	ManagementServiceImpl msi = new ManagementServiceImpl();
+    	
+ 		String result = msi.addUser(name);
+ 		return Response.status(201).entity(result).build();
+
+ 	}
 }

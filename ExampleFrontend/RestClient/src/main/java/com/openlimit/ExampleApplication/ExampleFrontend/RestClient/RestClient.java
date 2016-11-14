@@ -3,7 +3,12 @@ package com.openlimit.ExampleApplication.ExampleFrontend.RestClient;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -19,14 +24,14 @@ import org.apache.http.util.EntityUtils;
 
 public class RestClient {
 
-	public String getUsers(){
+	public String getFromRest(String context){
 		 DefaultHttpClient httpclient = new DefaultHttpClient();
 		    try {
 		      // specify the host, protocol, and port
-		      HttpHost target = new HttpHost("localhost", 8080, "http");
+		      HttpHost target = new HttpHost("localhost", 8081, "http");
 		      
 		      // specify the get request
-		      HttpGet getRequest = new HttpGet("/RestExample/rest/users");
+		      HttpGet getRequest = new HttpGet("/RestExample/rest/"+context);
 
 		      System.out.println("executing request to " + target);
 
@@ -42,7 +47,7 @@ public class RestClient {
 		      System.out.println("----------------------------------------");
 
 		      if (entity != null) {
-		        System.out.println(EntityUtils.toString(entity));
+//		        System.out.println(EntityUtils.toString(entity));
 		        return EntityUtils.toString(entity);
 		      }
 
@@ -61,7 +66,7 @@ public class RestClient {
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
 	    try {
 	      // specify the host, protocol, and port
-	      HttpHost target = new HttpHost("localhost", 8080, "http");
+	      HttpHost target = new HttpHost("localhost", 8081, "http");
 	      
 	      // specify the get request
 	      HttpGet getRequest = new HttpGet("/RestExample/rest/users");
@@ -92,4 +97,44 @@ public class RestClient {
 	      httpclient.getConnectionManager().shutdown();
 	    }
 	  }
+
+	public void postRest(String value) {
+		try {
+			URL url = new URL("http://localhost:8081/RestExample/rest/addUser");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "text/plain");
+
+			OutputStream os = conn.getOutputStream();
+			os.write(value.getBytes());
+			os.flush();
+
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+				throw new RuntimeException("Failed : HTTP error code : "
+					+ conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+
+			String output;
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+			}
+
+			conn.disconnect();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }

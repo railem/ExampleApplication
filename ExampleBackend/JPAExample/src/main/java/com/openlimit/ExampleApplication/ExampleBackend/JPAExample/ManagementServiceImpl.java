@@ -41,6 +41,37 @@ public class ManagementServiceImpl {
 		return usernamesString;
 	}
 	
+	private String teamsString;
+	public String getTeams(){
+		
+		teamsString = "";
+		
+		em.getTransaction().begin();
+		
+		String queryString = "SELECT t FROM Team t";
+		TypedQuery<Team> query = em.createQuery(queryString, Team.class);
+		List<Team> results = query.getResultList();
+		results.forEach(t -> {
+			teamsString = teamsString + t.getName() + "; ";
+		});
+			
+        em.getTransaction().commit();
+        em.close();
+		
+		
+		return teamsString;
+	}
+	
+	public String addUser(String name){
+		
+		try {
+			createUser(name, "empty@empty.empty");
+			return "success";
+		} catch (Exception e) {
+			return "failed";
+		}
+	}
+	
 	public void createUser(String name, String email){
 		User user = new User( name, email );
 		
