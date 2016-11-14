@@ -16,6 +16,8 @@
  */
 package com.openlimit.ExampleApplication.ExampleBackend.RestExample;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,96 +27,114 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.ManagementServiceImpl;
+import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.Team;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
-
 
 @Produces(MediaType.TEXT_HTML)
 @Path("/")
 public class HelloWorld {
-    @Inject
-    HelloService helloService;
+	@Inject
+	HelloService helloService;
 
-    @GET
-    @Path("/json")
-    @Produces({ "application/json" })
-    public String getHelloWorldJSON() {
-        return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
-    }
+	@GET
+	@Path("/json")
+	@Produces({ "application/json" })
+	public String getHelloWorldJSON() {
+		return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
+	}
 
-    @GET
-    @Path("/xml")
-    @Produces({ "application/xml" })
-    public String getHelloWorldXML() {
-        return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";
-    }
-    
-    @GET
-    @Path("/wurst")
-    @Produces({ MediaType.TEXT_PLAIN })
-    public String getHelloWorldWurst() {
-        return helloService.createHelloMessage("Wurst");
-    }
+	@GET
+	@Path("/xml")
+	@Produces({ "application/xml" })
+	public String getHelloWorldXML() {
+		return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";
+	}
 
-    @GET
-    @Path("/worst")
-    public String getHelloWorldWorst() {
-        return "<h1>" + helloService.createHelloMessage("Wurst") + "</h1>";
-    }
-    
-    @GET
+	@GET
+	@Path("/wurst")
+	@Produces({ MediaType.TEXT_PLAIN })
+	public String getHelloWorldWurst() {
+		return helloService.createHelloMessage("Wurst");
+	}
+
+	@GET
+	@Path("/worst")
+	public String getHelloWorldWorst() {
+		return "<h1>" + helloService.createHelloMessage("Wurst") + "</h1>";
+	}
+
+	private String userString = "";
+	@GET
     @Path("/users")
     @Produces({ MediaType.TEXT_PLAIN })
     public String getUsernames() {
     	
     	ManagementServiceImpl msi = new ManagementServiceImpl();
+    	List<User> users = msi.getUsernames();
+    
+    	users.forEach(u -> {
+    		userString = userString + u.getUsername() + "; ";
+    	});
     	
-        return msi.getUsernames();
+        return userString;
     }
-    
-    @GET
-    @Path("/teams")
-    @Produces({ MediaType.TEXT_PLAIN })
-    public String getTeams() {
+
+	private String teamString = "";
+	@GET
+	@Path("/teams")
+	@Produces({ MediaType.TEXT_PLAIN })
+	public String getTeams() {
+
+		ManagementServiceImpl msi = new ManagementServiceImpl();
+		List<Team> teams = msi.getTeams();
+	    
+    	teams.forEach(t -> {
+    		teamString = teamString + t.getName() + "; ";
+    	});
     	
-    	ManagementServiceImpl msi = new ManagementServiceImpl();
-    	
-        return msi.getTeams();
-    }
-    
-    @POST
- 	@Path("/addUser")
- 	@Consumes("text/plain")
- 	public Response addUser(String name) {
+        return teamString;
+	}
 
-    	ManagementServiceImpl msi = new ManagementServiceImpl();
-    	
- 		String result = msi.addUser(name);
- 		return Response.status(201).entity(result).build();
+	@POST
+	@Path("/addUser")
+	@Consumes("text/plain")
+	public Response addUser(String name) {
 
- 	}
-    
-    @POST
- 	@Path("/getUserByName")
- 	@Consumes("application/json")
- 	public String getUserByName(String name) {
+		ManagementServiceImpl msi = new ManagementServiceImpl();
 
-    	ManagementServiceImpl msi = new ManagementServiceImpl();
-    	
- 		String result = msi.getUserByName(name);
- 		return result;
+		String result = msi.addUser(name);
+		return Response.status(201).entity(result).build();
 
- 	}
-    
-    @POST
- 	@Path("/updateUser")
- 	@Consumes("application/json")
- 	public Response updateUser(String json) {
+	}
 
-    	ManagementServiceImpl msi = new ManagementServiceImpl();
-    	
- 		String result = msi.updateUser(json);
- 		return Response.status(201).entity(result).build();
+	private String userJson = "";
+	@POST
+	@Path("/getUserByName")
+	@Consumes("application/json")
+	public String getUserByName(String name) {
 
- 	}
+		ManagementServiceImpl msi = new ManagementServiceImpl();
+
+		User user = msi.getUserByName(name);
+		
+		Gson gson = new Gson();
+		userJson = gson.toJson(user);
+		
+		return userJson;
+
+	}
+
+	@POST
+	@Path("/updateUser")
+	@Consumes("application/json")
+	public Response updateUser(String json) {
+
+		ManagementServiceImpl msi = new ManagementServiceImpl();
+
+		String result = msi.updateUser(json);
+		return Response.status(201).entity(result).build();
+
+	}
 }

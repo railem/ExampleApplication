@@ -1,33 +1,51 @@
 package com.openlimit.ExampleApplication.ExampleBackend.JPAExample;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceUnit;
 
 @Stateless
 public class ManagementServiceSessionBean {
 
-	private ManagementServiceImpl impl = new ManagementServiceImpl();
+	@PersistenceUnit(unitName="JPAExample")
+	private EntityManager em;
+	
+	private ManagementServiceImpl impl =null;
 	
 	public void createUser(String name, String email){
-		impl.createUser(name, email);
+		getBL().createUser(name, email);
 	}
 	
-	public String getUsernames(){
-		return impl.getUsernames();
+	public List<User> getUsernames(){
+		return getBL().getUsernames();
 	}
 	
-	public String getTeams(){
-		return impl.getTeams();
+	public List<Team> getTeams(){
+		return getBL().getTeams();
 	}
 	
 	public String addUser(String name){
-		return impl.addUser(name);
+		return getBL().addUser(name);
 	}
 	
-	public String getUserByName(String name){
-		return impl.getUserByName(name);
+	public User getUserByName(String name){
+		return getBL().getUserByName(name);
 	}
 	
-	public String updateUser(String json){
-		return impl.updateUser(json);
+	public String updateUser(User user){
+		return getBL().updateUser(user);
+	}
+	
+	private ManagementServiceImpl getBL()
+	{
+		if( impl != null )
+			return impl;
+		
+		impl = new ManagementServiceImpl();
+		impl.setEntityManager(em);
+		
+		return impl;
 	}
 }

@@ -1,68 +1,39 @@
 package com.openlimit.ExampleApplication.ExampleBackend.JPAExample;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-
-import com.google.gson.Gson;
 
 public class ManagementServiceImpl {
 	
-	private EntityManagerFactory emf;
+	
 	private EntityManager em;
 	
 	public ManagementServiceImpl() {
-		initJPA();
 		
-//		createTestData();
-//		testTestData();
-//		System.out.println(getUserByName("r.iven"));
 	}
 	
-	private String usernamesString;
-	public String getUsernames(){
-		
-		usernamesString = "";
-		
-		em.getTransaction().begin();
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+	
+	public List<User> getUsernames(){
 		
 		String queryString = "SELECT u FROM User u";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
-		results.forEach(u -> {
-			usernamesString = usernamesString + u.getUsername() + "; ";
-		});
-			
-        em.getTransaction().commit();
-        em.close();
 		
-		
-		return usernamesString;
+		return results;
 	}
-	
-	private String teamsString;
-	public String getTeams(){
-		
-		teamsString = "";
-		
-		em.getTransaction().begin();
+
+	public List<Team> getTeams(){
 		
 		String queryString = "SELECT t FROM Team t";
 		TypedQuery<Team> query = em.createQuery(queryString, Team.class);
 		List<Team> results = query.getResultList();
-		results.forEach(t -> {
-			teamsString = teamsString + t.getName() + "; ";
-		});
-			
-        em.getTransaction().commit();
-        em.close();
-		
-		
-		return teamsString;
+
+		return results;
 	}
 	
 	public String addUser(String name){
@@ -78,16 +49,11 @@ public class ManagementServiceImpl {
 	public void createUser(String name, String email){
 		User user = new User( name, email );
 		
-		em.getTransaction().begin();
-		
         em.persist(user);
         
-        em.getTransaction().commit();
-        em.close();
 	}
 
 	private void testTestData() {
-		em.getTransaction().begin();
 		
 		String queryString = "SELECT u FROM User u WHERE u.username = 'r.iven'";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
@@ -96,9 +62,6 @@ public class ManagementServiceImpl {
 			System.out.println(u.getUsername());
 			u.setEmail("iven@regina.de");
 		});
-			
-        em.getTransaction().commit();
-        em.close();
 	}
 
 	private void createTestData() {
@@ -120,8 +83,6 @@ public class ManagementServiceImpl {
 		testTeam2.addUser(testUser4);
 		testTeam2.addUser(testUser5);
         
-		em.getTransaction().begin();
-		
         em.persist(testUser1);
         em.persist(testUser2);
         em.persist(testUser3);
@@ -130,10 +91,6 @@ public class ManagementServiceImpl {
         
         em.persist(testTeam1);
         em.persist(testTeam2);
-        
-        em.getTransaction().commit();
-
-        em.close();
 	}
 
 	public static void main(String[] args) {
@@ -141,34 +98,35 @@ public class ManagementServiceImpl {
 		ManagementServiceImpl main = new ManagementServiceImpl();
 	}
 
-	private void initJPA() {
-		emf = Persistence.createEntityManagerFactory("JPAExample");
-		em = emf.createEntityManager();
-		
-	}
-
-	String userJson = "";
-	public String getUserByName(String name) {
-		em.getTransaction().begin();
-		
-		Gson gson = new Gson();
+	User user = null;
+	public User getUserByName(String name) {
 		
 		String queryString = "SELECT u FROM User u WHERE u.username = '"+name+"'";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
 		results.forEach(u -> {
-			userJson = gson.toJson(u);
+			user = u;
 		});
 			
-//        em.getTransaction().commit();
-        em.close();
-		
-		System.out.println("USER JSON ============ "+userJson);
-		return userJson;
+		return user;
 	}
 
-	public String updateUser(String json) {
-		// TODO Auto-generated method stub
-		return null;
+	public String updateUser(User user) {
+		String queryString = "SELECT u FROM User u WHERE u.id = '"+user.getId()+"'";
+		TypedQuery<User> query = em.createQuery(queryString, User.class);
+		List<User> results = query.getResultList();
+		
+		if(!results.isEmpty()) 
+		{
+			results.forEach(u -> {
+				u.setEmail(user.getEmail());
+				u.setUsername(user.getUsername());
+			});
+			return "success";
+		}
+		else
+		{
+			return "failed";
+		}
 	}
 }
