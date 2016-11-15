@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -24,6 +25,12 @@ public class JPATests {
 	public void init() {
 		emf = Persistence.createEntityManagerFactory("JPAExample");
 		em = emf.createEntityManager();
+	}
+	
+	@After
+	public void close() {
+		em.close();
+		emf.close();
 	}
 	
 	@Test
