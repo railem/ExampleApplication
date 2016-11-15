@@ -18,7 +18,7 @@ package com.openlimit.ExampleApplication.ExampleBackend.RestExample;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,42 +28,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.ManagementServiceImpl;
+import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.Team;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
 
 @Produces(MediaType.TEXT_HTML)
 @Path("/")
 public class RestService {
-	@Inject
-	HelloService helloService;
 
-	@GET
-	@Path("/json")
-	@Produces({ "application/json" })
-	public String getHelloWorldJSON() {
-		return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
-	}
-
-	@GET
-	@Path("/xml")
-	@Produces({ "application/xml" })
-	public String getHelloWorldXML() {
-		return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";
-	}
-
-	@GET
-	@Path("/wurst")
-	@Produces({ MediaType.TEXT_PLAIN })
-	public String getHelloWorldWurst() {
-		return helloService.createHelloMessage("Wurst");
-	}
-
-	@GET
-	@Path("/worst")
-	public String getHelloWorldWorst() {
-		return "<h1>" + helloService.createHelloMessage("Wurst") + "</h1>";
-	}
+	@EJB
+	private I_ManagementServiceSessionLocal msi;
 
 	private String userString = "";
 	@GET
@@ -71,7 +45,6 @@ public class RestService {
     @Produces({ MediaType.TEXT_PLAIN })
     public String getUsernames() {
     	
-    	ManagementServiceImpl msi = new ManagementServiceImpl();
     	List<User> users = msi.getUsernames();
     
     	users.forEach(u -> {
@@ -87,7 +60,6 @@ public class RestService {
 	@Produces({ MediaType.TEXT_PLAIN })
 	public String getTeams() {
 
-		ManagementServiceImpl msi = new ManagementServiceImpl();
 		List<Team> teams = msi.getTeams();
 	    
     	teams.forEach(t -> {
@@ -102,8 +74,6 @@ public class RestService {
 	@Consumes("text/plain")
 	public Response addUser(String name) {
 
-		ManagementServiceImpl msi = new ManagementServiceImpl();
-
 		String result = msi.addUser(name);
 		return Response.status(201).entity(result).build();
 
@@ -114,8 +84,6 @@ public class RestService {
 	@Path("/getUserByName")
 	@Consumes("application/json")
 	public String getUserByName(String name) {
-
-		ManagementServiceImpl msi = new ManagementServiceImpl();
 
 		User user = msi.getUserByName(name);
 		
@@ -131,8 +99,6 @@ public class RestService {
 	@Consumes("application/json")
 	public Response updateUser(String json) {
 
-		ManagementServiceImpl msi = new ManagementServiceImpl();
-
 		Gson gson = new Gson();
 		User user = gson.fromJson(json, User.class);
 		
@@ -146,8 +112,6 @@ public class RestService {
 	@Consumes("text/plain")
 	public Response deleteUser(String name) {
 
-		ManagementServiceImpl msi = new ManagementServiceImpl();
-		
 		try {
 			msi.deleteUser(name);
 			return Response.status(201).entity("success").build();

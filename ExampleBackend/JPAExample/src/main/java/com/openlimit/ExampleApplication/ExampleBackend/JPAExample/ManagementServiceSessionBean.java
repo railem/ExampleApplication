@@ -7,37 +7,66 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceUnit;
 
 @Stateless
-public class ManagementServiceSessionBean {
+public class ManagementServiceSessionBean 
+	implements I_ManagementServiceSessionLocal {
 
 	@PersistenceUnit(unitName="JPAExample")
 	private EntityManager em;
 	
 	private ManagementServiceImpl impl =null;
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#createUser(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public void createUser(String name, String email){
 		getBL().createUser(name, email);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#getUsernames()
+	 */
+	@Override
 	public List<User> getUsernames(){
 		return getBL().getUsernames();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#getTeams()
+	 */
+	@Override
 	public List<Team> getTeams(){
 		return getBL().getTeams();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#addUser(java.lang.String)
+	 */
+	@Override
 	public String addUser(String name){
 		return getBL().addUser(name);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#getUserByName(java.lang.String)
+	 */
+	@Override
 	public User getUserByName(String name){
 		return getBL().getUserByName(name);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#updateUser(com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User)
+	 */
+	@Override
 	public String updateUser(User user){
 		return getBL().updateUser(user);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal#deleteUser(java.lang.String)
+	 */
+	@Override
 	public void deleteUser(String user){
 		getBL().deleteUser(user);
 	}
