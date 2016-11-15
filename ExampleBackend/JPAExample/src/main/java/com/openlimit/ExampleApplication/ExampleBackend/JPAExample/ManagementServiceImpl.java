@@ -131,8 +131,17 @@ public class ManagementServiceImpl {
 		}
 	}
 	
-	public void deleteUser(User user) throws AssertionError {
+	private User userUser = null;
+	public void deleteUser(String user) throws AssertionError {
 
-		em.remove(user);
+		userUser = null;
+		String queryString = "SELECT u FROM User u WHERE u.username = '"+user+"'";
+		TypedQuery<User> query = em.createQuery(queryString, User.class);
+		List<User> results = query.getResultList();
+		results.forEach(u -> {
+			userUser = u;
+		});
+		
+		em.remove(userUser);
 	}
 }

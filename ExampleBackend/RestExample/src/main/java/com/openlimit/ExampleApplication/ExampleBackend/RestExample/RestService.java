@@ -34,7 +34,7 @@ import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
 
 @Produces(MediaType.TEXT_HTML)
 @Path("/")
-public class HelloWorld {
+public class RestService {
 	@Inject
 	HelloService helloService;
 
@@ -133,8 +133,27 @@ public class HelloWorld {
 
 		ManagementServiceImpl msi = new ManagementServiceImpl();
 
-		String result = msi.updateUser(json);
+		Gson gson = new Gson();
+		User user = gson.fromJson(json, User.class);
+		
+		String result = msi.updateUser(user);
 		return Response.status(201).entity(result).build();
+
+	}
+	
+	@POST
+	@Path("/deleteUser")
+	@Consumes("text/plain")
+	public Response deleteUser(String name) {
+
+		ManagementServiceImpl msi = new ManagementServiceImpl();
+		
+		try {
+			msi.deleteUser(name);
+			return Response.status(201).entity("success").build();
+		} catch (AssertionError e) {
+			return Response.status(201).entity("failed").build();
+		}
 
 	}
 }

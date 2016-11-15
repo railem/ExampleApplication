@@ -60,7 +60,7 @@ public class ManagementServiceTestImpl extends ManagementServiceImpl {
 	}
 	
 	@Override
-	public void deleteUser(User user) {
+	public void deleteUser(String user) {
 		if(!em.getTransaction().isActive())
 			em.getTransaction().begin();
 		super.deleteUser(user);

@@ -38,7 +38,7 @@ public class ManagementServiceSessionBean {
 		return getBL().updateUser(user);
 	}
 	
-	public void deleteUser(User user){
+	public void deleteUser(String user){
 		getBL().deleteUser(user);
 	}
 	

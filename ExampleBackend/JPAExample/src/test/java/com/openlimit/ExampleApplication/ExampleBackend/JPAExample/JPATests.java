@@ -2,13 +2,16 @@ package com.openlimit.ExampleApplication.ExampleBackend.JPAExample;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
 
+import org.hibernate.service.spi.ServiceException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -31,6 +34,28 @@ public class JPATests {
 	public void close() {
 		em.close();
 		emf.close();
+	}
+	
+	@Test
+	public void test00_database_connection_success() {
+		boolean isLoaded = emf.getPersistenceUnitUtil().isLoaded("JPAExample");
+		
+		assertTrue(isLoaded);
+	}
+	
+	@Test(expected = ServiceException.class)
+	public void test00_database_connection_failed() {
+
+		Map properties = new HashMap(); 
+		properties.put("transaction-type", "JTA");
+		properties.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+		properties.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost:3306/customer");
+		properties.put("javax.persistence.jdbc.user", "login1");
+		properties.put("javax.persistence.jdbc.password", "login1");
+
+		EntityManagerFactory emf2 = Persistence.createEntityManagerFactory("JPAExample",properties);
+		
+		fail("unexpected success");
 	}
 	
 	@Test
@@ -129,24 +154,19 @@ public class JPATests {
 	public void test09_deleteUser_success() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
-		
-		User user = impl.getUserByName("TEST_UPDATED");
-		
-		impl.deleteUser(user);
+
+		impl.deleteUser("TEST_UPDATED");
 		
 		User userAfterDelete = impl.getUserByName("TEST_UPDATED");
 		assertNull(userAfterDelete);
 	}
 	
-	@Test(expected = AssertionError.class)
+	@Test(expected = Throwable.class)
 	public void test10_deleteUser_failed() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
-		User user = new User();
-		user.setUsername("awda124V35");
-		user.setEmail("awdad@gg.ge");
-		impl.deleteUser(user);
+		impl.deleteUser("AWfFWa4");
 		
 		fail("unexpected success");
 	}
