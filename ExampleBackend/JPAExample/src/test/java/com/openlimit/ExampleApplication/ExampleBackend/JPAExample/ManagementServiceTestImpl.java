@@ -19,7 +19,6 @@ public class ManagementServiceTestImpl extends ManagementServiceImpl {
 		em.getTransaction().begin();
 		String result = super.addUser(name);
 		em.getTransaction().commit();
-		em.close();
 		
 		return result;
 	}
@@ -29,7 +28,6 @@ public class ManagementServiceTestImpl extends ManagementServiceImpl {
 		em.getTransaction().begin();
 		List<User> result = super.getUsernames();
 		em.getTransaction().commit();
-		em.close();
 		
 		return result;
 	}
@@ -39,7 +37,6 @@ public class ManagementServiceTestImpl extends ManagementServiceImpl {
 		em.getTransaction().begin();
 		List<Team> result = super.getTeams();
 		em.getTransaction().commit();
-		em.close();
 		
 		return result;
 	}
@@ -48,19 +45,27 @@ public class ManagementServiceTestImpl extends ManagementServiceImpl {
 	public User getUserByName(String name) {
 		em.getTransaction().begin();
 		User result = super.getUserByName(name);
-		em.close();
 		
 		return result;
 	}
 	
 	@Override
 	public String updateUser(User user) {
-		em.getTransaction().begin();
+		if(!em.getTransaction().isActive())
+			em.getTransaction().begin();
 		String result = super.updateUser(user);
 		em.getTransaction().commit();
-		em.close();
 		
 		return result;
+	}
+	
+	@Override
+	public void deleteUser(User user) {
+		if(!em.getTransaction().isActive())
+			em.getTransaction().begin();
+		super.deleteUser(user);
+		em.getTransaction().commit();
+
 	}
 
 }

@@ -3,6 +3,7 @@ package com.openlimit.ExampleApplication.ExampleBackend.JPAExample;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 public class ManagementServiceImpl {
@@ -46,7 +47,7 @@ public class ManagementServiceImpl {
 		}
 	}
 	
-	public void createUser(String name, String email){
+	public void createUser(String name, String email) throws RollbackException{
 		User user = new User( name, email );
 		
         em.persist(user);
@@ -100,7 +101,7 @@ public class ManagementServiceImpl {
 
 	User user = null;
 	public User getUserByName(String name) {
-		
+		user = null;
 		String queryString = "SELECT u FROM User u WHERE u.username = '"+name+"'";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
@@ -111,7 +112,7 @@ public class ManagementServiceImpl {
 		return user;
 	}
 
-	public String updateUser(User user) {
+	public String updateUser(User user) throws AssertionError {
 		String queryString = "SELECT u FROM User u WHERE u.id = '"+user.getId()+"'";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
@@ -128,5 +129,10 @@ public class ManagementServiceImpl {
 		{
 			return "failed";
 		}
+	}
+	
+	public void deleteUser(User user) throws AssertionError {
+
+		em.remove(user);
 	}
 }

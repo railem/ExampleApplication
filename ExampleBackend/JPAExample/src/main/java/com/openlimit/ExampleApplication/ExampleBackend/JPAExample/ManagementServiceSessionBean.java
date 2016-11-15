@@ -38,6 +38,10 @@ public class ManagementServiceSessionBean {
 		return getBL().updateUser(user);
 	}
 	
+	public void deleteUser(User user){
+		getBL().deleteUser(user);
+	}
+	
 	private ManagementServiceImpl getBL()
 	{
 		if( impl != null )

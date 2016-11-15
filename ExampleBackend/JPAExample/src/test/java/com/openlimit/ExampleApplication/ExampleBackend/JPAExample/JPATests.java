@@ -10,8 +10,11 @@ import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JPATests {
 
 	private EntityManagerFactory emf;
@@ -23,19 +26,19 @@ public class JPATests {
 		em = emf.createEntityManager();
 	}
 	
-//	@Test
-//	public void test_addUser_success() {
-//		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
-//		impl.setEntityManager(em);
-//		
-//		String result = impl.addUser("TEST");
-//		
-//		assertNotNull(result);
-//		assertTrue(result.equals("success"));
-//	}
+	@Test
+	public void test01_addUser_success() {
+		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
+		impl.setEntityManager(em);
+		
+		String result = impl.addUser("TEST");
+		
+		assertNotNull(result);
+		assertTrue(result.equals("success"));
+	}
 	
 	@Test(expected = RollbackException.class)
-	public void test_addUser_failed() {
+	public void test02_addUser_failed() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -45,7 +48,7 @@ public class JPATests {
 	}
 	
 	@Test
-	public void test_getUsernames_success() {
+	public void test03_getUsernames_success() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -56,7 +59,7 @@ public class JPATests {
 	}
 
 	@Test
-	public void test_getTeams_success() {
+	public void test04_getTeams_success() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -67,7 +70,7 @@ public class JPATests {
 	}
 	
 	@Test
-	public void test_getUserByName_success() {
+	public void test05_getUserByName_success() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -78,7 +81,7 @@ public class JPATests {
 	}
 	
 	@Test
-	public void test_getUserByName_failed() {
+	public void test06_getUserByName_failed() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -88,7 +91,7 @@ public class JPATests {
 	}
 	
 	@Test
-	public void test_updateUser_success() {
+	public void test07_updateUser_success() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -101,8 +104,8 @@ public class JPATests {
 		assertTrue(result.equals("success"));
 	}
 	
-	@Test(expected = RollbackException.class)
-	public void test_updateUser_failed() {
+	@Test(expected = AssertionError.class)
+	public void test08_updateUser_failed() {
 		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
 		impl.setEntityManager(em);
 		
@@ -111,6 +114,32 @@ public class JPATests {
 		user.setEmail("awdad@gg.ge");
 		
 		String result = impl.updateUser(user);
+		
+		fail("unexpected success");
+	}
+	
+	@Test
+	public void test09_deleteUser_success() {
+		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
+		impl.setEntityManager(em);
+		
+		User user = impl.getUserByName("TEST_UPDATED");
+		
+		impl.deleteUser(user);
+		
+		User userAfterDelete = impl.getUserByName("TEST_UPDATED");
+		assertNull(userAfterDelete);
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void test10_deleteUser_failed() {
+		ManagementServiceTestImpl impl = new ManagementServiceTestImpl();
+		impl.setEntityManager(em);
+		
+		User user = new User();
+		user.setUsername("awda124V35");
+		user.setEmail("awdad@gg.ge");
+		impl.deleteUser(user);
 		
 		fail("unexpected success");
 	}
