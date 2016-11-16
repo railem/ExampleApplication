@@ -36,6 +36,42 @@ public class JPATests {
 		emf.close();
 	}
 	
+//	@Test
+//	public void test000_createTestData() {
+//		
+//		em.getTransaction().begin();
+//		
+//		User testUser1 = new User( "j.gurke", "jochen@gurke.de" );
+//		User testUser2 = new User( "r.iven", "iven@regina.com" );
+//		User testUser3 = new User( "k.arl", "karl@arl.de" );
+//		User testUser4 = new User( "j.spargel", "juergen@spargel.de" );
+//		User testUser5 = new User( "j.lauch", "jacob@lauch.de" );
+//		
+//		Team testTeam1 = new Team();
+//		testTeam1.setName("WurstTeam");
+//		testTeam1.addUser(testUser1);
+//		testTeam1.addUser(testUser2);
+//		
+//		Team testTeam2 = new Team();
+//		testTeam2.setName("TeamTratsch");
+//		testTeam2.addUser(testUser3);
+//		testTeam2.addUser(testUser4);
+//		testTeam2.addUser(testUser5);
+//        
+//        em.persist(testUser1);
+//        em.persist(testUser2);
+//        em.persist(testUser3);
+//        em.persist(testUser4);
+//        em.persist(testUser5);
+//        
+//        em.persist(testTeam1);
+//        em.persist(testTeam2);
+//		
+//        em.getTransaction().commit();
+//        
+//		assertTrue(true);
+//	}
+	
 	@Test
 	public void test00_database_connection_success() {
 		boolean isLoaded = emf.getPersistenceUnitUtil().isLoaded("JPAExample");

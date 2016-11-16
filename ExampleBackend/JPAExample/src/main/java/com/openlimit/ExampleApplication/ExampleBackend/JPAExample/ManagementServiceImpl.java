@@ -24,7 +24,7 @@ public class ManagementServiceImpl {
 		String queryString = "SELECT u FROM User u";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
-		
+		System.out.println(results.size());
 		return results;
 	}
 
@@ -54,51 +54,6 @@ public class ManagementServiceImpl {
         
 	}
 
-	private void testTestData() {
-		
-		String queryString = "SELECT u FROM User u WHERE u.username = 'r.iven'";
-		TypedQuery<User> query = em.createQuery(queryString, User.class);
-		List<User> results = query.getResultList();
-		results.forEach(u -> {
-			System.out.println(u.getUsername());
-			u.setEmail("iven@regina.de");
-		});
-	}
-
-	private void createTestData() {
-		
-		User testUser1 = new User( "j.gurke", "jochen@gurke.de" );
-		User testUser2 = new User( "r.iven", "iven@regina.com" );
-		User testUser3 = new User( "k.arl", "karl@arl.de" );
-		User testUser4 = new User( "j.spargel", "juergen@spargel.de" );
-		User testUser5 = new User( "j.lauch", "jacob@lauch.de" );
-		
-		Team testTeam1 = new Team();
-		testTeam1.setName("WurstTeam");
-		testTeam1.addUser(testUser1);
-		testTeam1.addUser(testUser2);
-		
-		Team testTeam2 = new Team();
-		testTeam2.setName("TeamTratsch");
-		testTeam2.addUser(testUser3);
-		testTeam2.addUser(testUser4);
-		testTeam2.addUser(testUser5);
-        
-        em.persist(testUser1);
-        em.persist(testUser2);
-        em.persist(testUser3);
-        em.persist(testUser4);
-        em.persist(testUser5);
-        
-        em.persist(testTeam1);
-        em.persist(testTeam2);
-	}
-
-	public static void main(String[] args) {
-		
-		ManagementServiceImpl main = new ManagementServiceImpl();
-	}
-
 	User user = null;
 	public User getUserByName(String name) {
 		user = null;
@@ -108,7 +63,7 @@ public class ManagementServiceImpl {
 		results.forEach(u -> {
 			user = u;
 		});
-			
+
 		return user;
 	}
 

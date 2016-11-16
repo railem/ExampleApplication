@@ -1,63 +1,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.openlimit.ExampleApplication.ExampleBackend</groupId>
-  <artifactId>JPAExample</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>ejb</packaging>
+	<groupId>com.openlimit.ExampleApplication.ExampleBackend</groupId>
+	<artifactId>JPAExample</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>ejb</packaging>
 
-  <name>JPAExample</name>
-  <url>http://maven.apache.org</url>
+	<name>JPAExample</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    <groupId>javax</groupId>
-    <artifactId>javaee-api</artifactId>
-    <version>7.0</version>
-	</dependency>
-	<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>5.1.40</version>
-	</dependency>
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.12</version>
-</dependency>
-  </dependencies>
-  
-  <build>
-        <plugins>
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.40</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.2.4.Final</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
 				<configuration>
-				    <ejbVersion>3.0</ejbVersion>
+					<ejbVersion>3.0</ejbVersion>
 				</configuration>
-   			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webXml>src\main\webapp/WEB-INF\web.xml</webXml>
- 					<!--<attachClasses>true</attachClasses>
-                	<classesClassifier>classes</classesClassifier>-->
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -2,15 +2,24 @@ package com.openlimit.ExampleApplication.ExampleBackend.JPAExample;
 
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceUnit;
 
 @Stateless
 public class ManagementServiceSessionBean 
 	implements I_ManagementServiceSessionLocal {
 
-	@PersistenceUnit(unitName="JPAExample")
+	//@PersistenceUnit(unitName="JPAExample")
+	//private EntityManagerFactory emf;
+	
+	@PersistenceContext(unitName="JPAExample")
 	private EntityManager em;
 	
 	private ManagementServiceImpl impl =null;
@@ -77,6 +86,8 @@ public class ManagementServiceSessionBean
 			return impl;
 		
 		impl = new ManagementServiceImpl();
+		
+//		EntityManager em = emf.createEntityManager();
 		impl.setEntityManager(em);
 		
 		return impl;

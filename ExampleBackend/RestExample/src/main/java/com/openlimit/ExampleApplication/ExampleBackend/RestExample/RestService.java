@@ -42,8 +42,8 @@ public class RestService {
 	private String userString = "";
 	@GET
     @Path("/users")
-    @Produces({ MediaType.TEXT_PLAIN })
-    public String getUsernames() {
+    @Produces({ MediaType.APPLICATION_JSON})
+    public List<User> getUsernames() {
     	
     	List<User> users = msi.getUsernames();
     
@@ -51,10 +51,12 @@ public class RestService {
     		userString = userString + u.getUsername() + "; ";
     	});
     	
-        return userString;
+    	System.out.println(users.size());
+    	
+        return users;
     }
 
-	private String teamString = "";
+	private String teamString = "asf";
 	@GET
 	@Path("/teams")
 	@Produces({ MediaType.TEXT_PLAIN })
