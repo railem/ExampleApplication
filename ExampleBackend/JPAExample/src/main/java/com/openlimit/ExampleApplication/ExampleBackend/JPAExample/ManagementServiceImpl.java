@@ -24,7 +24,7 @@ public class ManagementServiceImpl {
 		String queryString = "SELECT u FROM User u";
 		TypedQuery<User> query = em.createQuery(queryString, User.class);
 		List<User> results = query.getResultList();
-		System.out.println(results.size());
+
 		return results;
 	}
 

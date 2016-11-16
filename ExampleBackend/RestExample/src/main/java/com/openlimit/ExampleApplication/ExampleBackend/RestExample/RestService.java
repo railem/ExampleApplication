@@ -27,7 +27,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.Team;
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
@@ -39,36 +38,24 @@ public class RestService {
 	@EJB
 	private I_ManagementServiceSessionLocal msi;
 
-	private String userString = "";
 	@GET
     @Path("/users")
     @Produces({ MediaType.APPLICATION_JSON})
     public List<User> getUsernames() {
     	
     	List<User> users = msi.getUsernames();
-    
-    	users.forEach(u -> {
-    		userString = userString + u.getUsername() + "; ";
-    	});
-    	
-    	System.out.println(users.size());
-    	
+
         return users;
     }
 
-	private String teamString = "asf";
 	@GET
 	@Path("/teams")
-	@Produces({ MediaType.TEXT_PLAIN })
-	public String getTeams() {
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Team> getTeams() {
 
 		List<Team> teams = msi.getTeams();
-	    
-    	teams.forEach(t -> {
-    		teamString = teamString + t.getName() + "; ";
-    	});
-    	
-        return teamString;
+		System.out.println(teams.size());
+        return teams;
 	}
 
 	@POST
@@ -81,32 +68,23 @@ public class RestService {
 
 	}
 
-	private String userJson = "";
 	@POST
 	@Path("/getUserByName")
-	@Consumes("application/json")
-	public String getUserByName(String name) {
+	@Consumes("text/plain")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public User getUserByName(String name) {
 
 		User user = msi.getUserByName(name);
-		
-		Gson gson = new Gson();
-		userJson = gson.toJson(user);
-		
-		return userJson;
-
+		return user;
 	}
 
 	@POST
 	@Path("/updateUser")
 	@Consumes("application/json")
-	public Response updateUser(String json) {
-
-		Gson gson = new Gson();
-		User user = gson.fromJson(json, User.class);
+	public Response updateUser(User oldUser) {
 		
-		String result = msi.updateUser(user);
+		String result = msi.updateUser(oldUser);
 		return Response.status(201).entity(result).build();
-
 	}
 	
 	@POST
@@ -120,6 +98,5 @@ public class RestService {
 		} catch (AssertionError e) {
 			return Response.status(201).entity("failed").build();
 		}
-
 	}
 }

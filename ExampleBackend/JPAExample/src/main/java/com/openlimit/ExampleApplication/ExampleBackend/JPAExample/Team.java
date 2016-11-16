@@ -24,7 +24,7 @@ public class Team {
 	
 	private String name;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 	    name="T_User_Team",
 	    joinColumns=

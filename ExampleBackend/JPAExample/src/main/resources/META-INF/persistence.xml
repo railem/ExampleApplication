@@ -23,3 +23,8 @@
         </properties>
     </persistence-unit>
 </persistence>
+<!-- jta-data-source muss der erstellten im wildfly entsprechen.
+ /opt/olsc/wildfly-10.1.0.Final/modules/system/layers/base/com/ den Ordner mysql/driver/main anlegen,
+ den treiber dort ablegen und module xml erstellen.
+ Danach übers cli registrieren - /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql.driver,driver-class-name=com.mysql.jdbc.Driver)
+ Zuletzt über wildlfy WUI die datasource anlegen-->
