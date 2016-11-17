@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -23,8 +24,9 @@ public class MyUI extends UI {
         final VerticalLayout layout = new VerticalLayout();
         RestClient app = new RestClient();
         
-        final TextField name = new TextField();
-        name.setWidth("600px");
+        final TextArea name = new TextArea();
+        name.setWidth("900px");
+        name.setHeight("100px");
         name.setCaption("Rest Answer:");
 
         Button button = new Button("Request Users");
@@ -45,6 +47,7 @@ public class MyUI extends UI {
         
         
         final TextField jsonUser = new TextField("User JSON:");
+        jsonUser.setWidth("600px");
         final TextField usertf = new TextField("get user by name:");
         Button button4 = new Button("get");
         button4.addClickListener( e -> {
@@ -54,12 +57,11 @@ public class MyUI extends UI {
         
         Button button5 = new Button("update");
         button5.addClickListener( e -> {
-//        	String json = app.getUserByName(usertf.getValue());
-//        	jsonUser.setValue(json);
+        	app.updateUser(jsonUser.getValue());
         });
 
         
-        layout.addComponents(name, button, button2, new HorizontalLayout(tf, button3),new HorizontalLayout(usertf, button4),
+        layout.addComponents(name, button, button2, new Label(), new HorizontalLayout(tf, button3), new Label(), new HorizontalLayout(usertf, button4),
         		new HorizontalLayout(jsonUser, button5));
         layout.setMargin(true);
         layout.setSpacing(true);

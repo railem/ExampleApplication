@@ -26,7 +26,8 @@ public class JPATests {
 	
 	@Before
 	public void init() {
-		emf = Persistence.createEntityManagerFactory("JPAExample");
+		
+		emf = Persistence.createEntityManagerFactory("JPAExampleTEST");
 		em = emf.createEntityManager();
 	}
 	
@@ -83,7 +84,6 @@ public class JPATests {
 	public void test00_database_connection_failed() {
 
 		Map properties = new HashMap(); 
-		properties.put("transaction-type", "JTA");
 		properties.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
 		properties.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost:3306/customer");
 		properties.put("javax.persistence.jdbc.user", "login1");

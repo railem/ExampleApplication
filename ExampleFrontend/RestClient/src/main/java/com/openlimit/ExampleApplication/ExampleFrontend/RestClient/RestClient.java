@@ -23,12 +23,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 public class RestClient {
+	
+	private String serverUrl = "http://localhost:8080/RestExample/rest/";
 
 	public String getFromRest(String context){
 		 DefaultHttpClient httpclient = new DefaultHttpClient();
 		    try {
 		      // specify the host, protocol, and port
-		      HttpHost target = new HttpHost("localhost", 8081, "http");
+		      HttpHost target = new HttpHost("localhost", 8080, "http");
 		      
 		      // specify the get request
 		      HttpGet getRequest = new HttpGet("/RestExample/rest/"+context);
@@ -51,9 +53,9 @@ public class RestClient {
 		        return EntityUtils.toString(entity);
 		      }
 
-		    } catch (Exception e) {
-		      e.printStackTrace();
-		    } finally {
+			} catch (Throwable e) {
+				e.printStackTrace();
+			} finally {
 		      // When HttpClient instance is no longer needed,
 		      // shut down the connection manager to ensure
 		      // immediate deallocation of all system resources
@@ -66,7 +68,7 @@ public class RestClient {
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
 	    try {
 	      // specify the host, protocol, and port
-	      HttpHost target = new HttpHost("localhost", 8081, "http");
+	      HttpHost target = new HttpHost("localhost", 8080, "http");
 	      
 	      // specify the get request
 	      HttpGet getRequest = new HttpGet("/RestExample/rest/users");
@@ -88,9 +90,9 @@ public class RestClient {
 	        System.out.println(EntityUtils.toString(entity));
 	      }
 
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	    } finally {
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
 	      // When HttpClient instance is no longer needed,
 	      // shut down the connection manager to ensure
 	      // immediate deallocation of all system resources
@@ -100,7 +102,7 @@ public class RestClient {
 
 	public void postRest(String value) {
 		try {
-			URL url = new URL("http://localhost:8081/RestExample/rest/addUser");
+			URL url = new URL(serverUrl+"addUser");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
@@ -125,22 +127,14 @@ public class RestClient {
 			}
 
 			conn.disconnect();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public void addUser(String name, String mail) {
+	public void updateUser(String json) {
 		try {
-			URL url = new URL("http://localhost:8081/RestExample/rest/addUser2");
+			URL url = new URL(serverUrl+"updateUser");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
@@ -149,7 +143,7 @@ public class RestClient {
 			String input = "{\"qty\":100,\"name\":\"iPad 4\"}";
 			
 			OutputStream os = conn.getOutputStream();
-			os.write(name.getBytes());
+			os.write(json.getBytes());
 			os.flush();
 
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
@@ -167,25 +161,18 @@ public class RestClient {
 			}
 
 			conn.disconnect();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public String getUserByName(String name) {
 		try {
-			URL url = new URL("http://localhost:8081/RestExample/rest/getUserByName");
+			URL url = new URL(serverUrl+"getUserByName");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Content-Type", "text/plain");
 			
 			OutputStream os = conn.getOutputStream();
 			os.write(name.getBytes());
@@ -207,14 +194,7 @@ public class RestClient {
 			}
 
 			conn.disconnect();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		return "";
