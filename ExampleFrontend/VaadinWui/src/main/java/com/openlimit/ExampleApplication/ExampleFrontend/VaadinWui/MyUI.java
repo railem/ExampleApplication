@@ -1,5 +1,7 @@
 package com.openlimit.ExampleApplication.ExampleFrontend.VaadinWui;
 
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -9,6 +11,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.FooterRow;
+import com.vaadin.ui.Grid.HeaderRow;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -31,10 +35,27 @@ public class MyUI extends UI {
 		VerticalLayout layout = new VerticalLayout();
 		RestClient app = new RestClient();
 
+		List<User> users = app.getUserList();
+		
 		HorizontalLayout tableLayout = new HorizontalLayout();
-		BeanItemContainer<User> ds = new BeanItemContainer<User>(User.class, app.getUserList());
+		BeanItemContainer<User> ds = new BeanItemContainer<User>(User.class, users);
 		Grid grid = new Grid("Users", ds);
 		tableLayout.addComponent(grid);
+		grid.getColumn("username").setMinimumWidth(200);
+		grid.setColumnOrder("id", "username", "email");
+		
+		HeaderRow row = grid.prependHeaderRow();
+		row.join("username", "email").setHtml("<b>Editable</b>");
+		FooterRow footer = grid.appendFooterRow();
+		
+		int totalId = 0;
+		for(User u : users){
+			totalId+=u.getId();
+		}
+		footer.getCell("id").setText("ø "+(totalId/users.size()));
+		
+		grid.setEditorEnabled(true);
+		grid.setEditorSaveCaption("Save my data, please!");
 
 		BeanItemContainer<Team> ds2 = new BeanItemContainer<Team>(Team.class, app.getTeamList());
 		Grid grid2 = new Grid("Teams", ds2);
@@ -75,7 +96,7 @@ public class MyUI extends UI {
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+	@VaadinServletConfiguration(ui = MyUI.class, productionMode = true)
 	public static class MyUIServlet extends VaadinServlet {
 	}
 }
