@@ -73,6 +73,13 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
+<dependency>
+        	<groupId>
+        		com.openlimit.ExampleApplication.ExampleCommon
+        	</groupId>
+        	<artifactId>ExampleCommon</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<build>

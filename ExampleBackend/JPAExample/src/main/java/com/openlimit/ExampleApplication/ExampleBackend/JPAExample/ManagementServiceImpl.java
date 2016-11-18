@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
+import com.openlimit.ExampleApplication.ExampleCommon.common.Team;
+import com.openlimit.ExampleApplication.ExampleCommon.common.User;
 
 public class ManagementServiceImpl {
 	

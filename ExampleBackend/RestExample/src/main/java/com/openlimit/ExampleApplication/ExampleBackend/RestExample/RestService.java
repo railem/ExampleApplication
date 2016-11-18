@@ -28,8 +28,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.I_ManagementServiceSessionLocal;
-import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.Team;
-import com.openlimit.ExampleApplication.ExampleBackend.JPAExample.User;
+import com.openlimit.ExampleApplication.ExampleCommon.common.Team;
+import com.openlimit.ExampleApplication.ExampleCommon.common.User;
 
 @Produces(MediaType.TEXT_HTML)
 @Path("/")

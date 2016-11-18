@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.openlimit.ExampleApplication.ExampleCommon.common.Team;
+import com.openlimit.ExampleApplication.ExampleCommon.common.User;
+
 public class ManagementServiceTestImpl extends ManagementServiceImpl {
 
 	private EntityManager em;

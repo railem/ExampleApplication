@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.openlimit.ExampleApplication.ExampleCommon.common.Team;
+import com.openlimit.ExampleApplication.ExampleCommon.common.User;
+
 @Local
 public interface I_ManagementServiceSessionLocal {
 

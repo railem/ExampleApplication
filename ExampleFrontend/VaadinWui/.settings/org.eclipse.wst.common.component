@@ -8,6 +8,9 @@
         <dependent-module archiveName="RestClient-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/RestClient/RestClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="ExampleCommon-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExampleCommon/ExampleCommon">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="VaadinWui"/>
         <property name="java-output-path" value="/VaadinWui/target/classes"/>
         <property name="component.exclusion.patterns" value="WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**"/>

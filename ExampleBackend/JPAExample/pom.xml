@@ -41,6 +41,13 @@
 			<version>5.2.4.Final</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+        	<groupId>
+        		com.openlimit.ExampleApplication.ExampleCommon
+        	</groupId>
+        	<artifactId>ExampleCommon</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

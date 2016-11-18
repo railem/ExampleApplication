@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceUnit;
+import com.openlimit.ExampleApplication.ExampleCommon.common.Team;
+import com.openlimit.ExampleApplication.ExampleCommon.common.User;
 
 @Stateless
 public class ManagementServiceSessionBean 
