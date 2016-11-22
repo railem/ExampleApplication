@@ -54,7 +54,6 @@ public class RestConnector {
 					return EntityUtils.toString(entity);
 				}
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} finally {

@@ -6,7 +6,10 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -33,7 +36,7 @@ public class MyUI extends UI {
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
 		VerticalLayout layout = new VerticalLayout();
-		RestClient app = new RestClient();
+		RestClient app = new RestClient("http", "localhost", 8080, "RestExample/rest");
 
 		List<User> users = app.getUserList();
 		
@@ -56,6 +59,11 @@ public class MyUI extends UI {
 		
 		grid.setEditorEnabled(true);
 		grid.setEditorSaveCaption("Save my data, please!");
+		 
+		grid.addSelectionListener(e -> {
+			BeanItem<User> item = ds.getItem(grid.getSelectedRow());
+		    e.getSource();   
+	    });
 
 		BeanItemContainer<Team> ds2 = new BeanItemContainer<Team>(Team.class, app.getTeamList());
 		Grid grid2 = new Grid("Teams", ds2);

@@ -34,8 +34,8 @@ public class RestClient {
 	
 	private RestConnector rc;
 	
-	public RestClient() {
-		rc = new RestConnector("http", "localhost", 8080, "RestExample/rest" );
+	public RestClient(String protocol, String host, int port, String context) {
+		rc = new RestConnector(protocol, host, port, context);
 	}
 
 	public List<User> getUserList(){
