@@ -67,6 +67,7 @@ public class MyUI extends UI {
 		for(User u : users){
 			totalId+=u.getId();
 		}
+		if(totalId!=0)
 		footer.getCell("id").setText("ø "+(totalId/users.size()));
 		
 		grid.setEditorEnabled(true);

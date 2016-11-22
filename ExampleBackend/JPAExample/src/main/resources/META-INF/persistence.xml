@@ -22,7 +22,7 @@
         </properties>
     </persistence-unit>
     <persistence-unit name="JPAExample" transaction-type="JTA">
-    	<jta-data-source>java:/MySqlDS</jta-data-source>
+    	<jta-data-source>java:/ExampleApplicationDS</jta-data-source>
         <class>com.openlimit.ExampleApplication.ExampleCommon.common.User</class>
         <class>com.openlimit.ExampleApplication.ExampleCommon.common.Team</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>

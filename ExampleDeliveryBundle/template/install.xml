@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+
+<project name="ExampleProject" default="main" basedir=".">
+
+  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+  <property name="ant.dir" value="${basedir}/contrib/apache-ant-1.9.7" />
+  <property name="lib.dir" value="${basedir}/lib" />
+  <property name="res.dir" value="${basedir}/res" />
+  <property name="dist.dir" value="${basedir}/dist" />
+  <property name="mysql.jar" value="mysql-connector-java-5.1.40-bin.jar"/>
+  <property file="${basedir}/install.properties"/>
+  <property name="wildfly.admin" value="${WILDFLY_ROOT}/bin/jboss-cli.sh"/>
+
+  <property name="db.check.file" value="${basedir}/dbchk" />
+
+  <condition property="jboss.online">
+	<socket server="127.0.0.1" port="${WILDFLY_ADMIN_PORT}" />
+  </condition>
+
+  <path id="ant.classpath">
+	<fileset dir="${ant.dir}/lib">
+	  <include name="**/*.jar" />
+	</fileset>
+	<fileset dir="${lib.dir}">
+	  <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <target name="main">
+	<antcall target="welcome"/>
+	<antcall target="check.java"/>
+	<antcall target="check.wildfly"/>
+	<antcall target="check.wildfly.offline"/>
+	<antcall target="check.database"/>
+	<antcall target="install.sql.driver"/>
+	<antcall target="wildfly.start"/>
+	<antcall target="check.wildfly.online"/>
+	<antcall target="install.sql.connector"/>
+	<antcall target="database.create-scheme"/>
+	<antcall target="deploy.ears"/>
+	<antcall target="wildfly.stop"/>
+  </target>
+
+  <target name="welcome">
+	<echo>
+	ExampleProject-Installer
+	</echo>
+  </target>
+
+  <target name="check.java">
+	<echo>Checking Java availability</echo>
+	<property name="java.exec" value = "${JHOME}/bin/java"/>
+	<available file="${java.exec}" property="java.available"/>
+	<if>
+	  <not>
+		<istrue value="${java.available}"/>
+	  </not>
+	  <then>
+		<echo>-> Java is not available! [FAILED]</echo>
+	  	<fail message="Java is not available! [FAILED]"/>
+	  </then>
+	</if>
+	<echo>-> Java available [OK]</echo>
+  </target>
+
+  <target name="check.wildfly">
+	<echo>Checking Wildfly availability</echo>
+	<available file="${WILDFLY_ROOT}" property="wildflyroot.available"/>
+	<if>
+	  <not>
+		<istrue value="${wildflyroot.available}"/>
+	  </not>
+	  <then>
+		<echo>-> WildFly Root is not available! [FAILED]</echo>
+		<fail message="WildFly Root is not available! [FAILED]"/>
+	  </then>	
+	</if>	
+	<echo>-> WildFly Root available [OK]</echo>
+  </target>
+
+  <target name="check.wildfly.offline">
+	<echo>Checking if Wildfly is offline</echo>
+    <if>
+      <istrue value="${jboss.online}"/>
+  	  <then>
+        <echo>-> WildFly is online! [FAILED]</echo>
+		<fail message="WildFly is online! [FAILED]"/>
+      </then>
+    </if>
+	<echo>-> WildFly is offline [OK]</echo>
+  </target>
+
+  <target name="check.wildfly.online">
+	<echo>Checking if Wildfly is online</echo>
+    <if>
+      <istrue value="${jboss.online}"/>
+  	  <then>
+        <echo>-> WildFly is online! [OK]</echo>
+      </then>
+	  <else>
+	    <echo>-> WildFly is offline! [FAILED]</echo>       
+		<fail message="WildFly is offline! [FAILED]"/>
+	  </else>	
+    </if>
+  </target>
+
+  <target name="check.database">
+	<delete file="${db.check.file}" />
+	<sql classpathref="ant.classpath" driver="com.mysql.jdbc.Driver" 
+	url="jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}" 
+	userid="${MYSQL_USER}" password="${MYSQL_PASSWORD}" output="${db.check.file}"
+	print="true" showheaders="false" showtrailers="false"
+									 >
+select case when count(*) >0 then 'DATABASE_NOT_EMPTY_ERROR' else 'DATABASE_EMPTY_OK' end  from information_schema.tables where table_schema = '${MYSQL_DB_NAME}';
+select 'Tables found:' from dual;					
+select TABLE_NAME from information_schema.tables where table_schema = '${MYSQL_DB_NAME}';					
+	</sql>
+	<basename file="${db.check.file}" property="db.check.file.base" />
+	<dirname file="${db.check.file}" property="db.check.file.dir" />
+	  <if>
+		<resourcecount count="1">
+		  <fileset dir="${db.check.file.dir}">
+		    <filename name="${db.check.file.base}" />
+		    <containsregexp expression=".*DATABASE_NOT_EMPTY_ERROR.*" />
+		  </fileset>
+		</resourcecount>
+		<then>
+		  <echo>Database ${MYSQL_DB_NAME} not empty.</echo>
+		  <loadfile srcFile="${db.check.file}" property="db.check.msg" />
+		  <echo message="${db.check.msg}" />
+		  <fail message="Database ${MYSQL_DB_NAME} not empty." />
+		</then>
+	  </if>
+  </target>
+
+  <target name="install.sql.driver">
+    <echo>Copy JDBC driver to Wildfly library folder</echo>
+      <mkdir dir="${WILDFLY_ROOT}/modules/system/layers/base/com/mysql/main" />
+      <copy file="${lib.dir}/${mysql.jar}" todir="${WILDFLY_ROOT}/modules/system/layers/base/com/mysql/driver/main" verbose="true" overwrite="true" />
+      <copy file="${lib.dir}/module.xml" tofile="${WILDFLY_ROOT}/modules/system/layers/base/com/mysql/driver/main/module.xml" verbose="true" overwrite="true" />
+  </target>
+
+  <target name="wildfly.start">
+    <echo>Starting WildFly domain: standalone</echo>
+	<echo file="${res.dir}/start_domain.sh">
+#!/bin/bash
+${WILDFLY_ROOT}/bin/standalone.sh&amp;
+sleep 10
+    </echo>
+    <chmod file="${res.dir}/start_domain.sh" perm="ug+x"/>
+    <exec executable="${res.dir}/start_domain.sh" failonerror="true"/>
+    <delete file="${res.dir}/start_domain.sh"/>
+  </target>
+    
+  <target name="wildfly.stop">
+    <echo>Stoping Wildfly domain: standalone</echo>
+    <echo file="${res.dir}/stop_domain.cli">
+connect
+
+:shutdown
+    </echo>
+    <exec executable="${wildfly.admin}" failonerror="true">
+      <arg value="--file=${res.dir}/stop_domain.cli"/>
+    </exec>	
+    <delete file="${res.dir}/stop_domain.cli"/>
+  </target>
+
+  <target name="install.sql.connector">    
+      <echo>Register MySQL driver</echo>
+      <echo file="${res.dir}/register_mysql_jdbc_driver_gen.cli">
+		connect
+		
+		/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql.driver,driver-class-name=com.mysql.jdbc.Driver)
+		:reload
+      </echo>
+      <exec executable="${wildfly.admin}" failonerror="true">
+        <arg value="--file=${res.dir}/register_mysql_jdbc_driver_gen.cli"/>
+      </exec>
+      <delete file="${res.dir}/register_mysql_jdbc_driver_gen.cli"/>
+      <echo>Create Datasource</echo>
+      <echo  file="${res.dir}/create_datasource_gen.cli">
+		connect
+		
+		batch
+		data-source add --name=ExampleApplication --driver-name="mysql" --connection-url="jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}" --jndi-name="java:/ExampleApplicationDS" --use-ccm=true --driver-class="com.mysql.jdbc.Driver" --user-name="${MYSQL_USER}" --password="${MYSQL_PASSWORD}" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;"
+		data-source enable --name=ExampleApplication
+		run-batch
+		:reload
+      </echo>
+      <exec executable="${wildfly.admin}" failonerror="true">
+        <arg value="--file=${res.dir}/create_datasource_gen.cli"/>
+      </exec>
+      <delete file="${res.dir}/create_datasource_gen.cli"/>
+  </target>
+
+  <target name="database.create-scheme">
+    <echo>Creating Database Scheme!</echo>
+	<sql classpathref="ant.classpath" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}" userid="${MYSQL_USER}" password="${MYSQL_PASSWORD}" src="${res.dir}/ExampleApplication.sql" />
+  </target>
+
+  <target name="deploy.ears">
+    <echo>Deploying .ear files!</echo>
+	<exec executable="${wildfly.admin}" failonerror="Failed to deploy ExampleBackend!">
+	  <arg value="--connect"/>
+	  <arg value="deploy ${dist.dir}/ExampleBackend.ear"/>
+	</exec>
+	<exec executable="${wildfly.admin}" failonerror="Failed to deploy ExampleFrontend!">
+	  <arg value="--connect"/>
+	  <arg value="deploy ${dist.dir}/ExampleFrontend.ear"/>
+	</exec>
+  </target>
+
+</project>

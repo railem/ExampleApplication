@@ -1,0 +1,38 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>FULL</id>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<!-- Overlay -->
+		<fileSet>
+			<directory>${basedir}/template/</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<unpack>false</unpack>
+			<includes>
+				<include>com.openlimit.ExampleApplication:ExampleBackend:ear
+				</include>
+			</includes>
+			<outputDirectory>/dist/
+			</outputDirectory>
+			<outputFileNameMapping>ExampleBackend.ear</outputFileNameMapping>
+		</dependencySet>
+		<dependencySet>
+            <unpack>false</unpack>
+            <includes>
+                <include>com.openlimit.ExampleApplication:ExampleFrontend:ear
+                </include>
+            </includes>
+            <outputDirectory>/dist/
+            </outputDirectory>
+            <outputFileNameMapping>ExampleFrontend.ear</outputFileNameMapping>
+        </dependencySet>
+	</dependencySets>
+</assembly>
