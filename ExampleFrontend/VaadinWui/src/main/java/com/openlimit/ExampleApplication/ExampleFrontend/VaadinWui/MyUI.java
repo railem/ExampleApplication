@@ -33,19 +33,31 @@ public class MyUI extends UI {
 
 	private User u;
 	
+	List<User> users;
+	BeanItemContainer<User> ds;
+	Grid grid;
+	
+	List<Team> teams;
+	BeanItemContainer<Team> ds2;
+	Grid grid2;
+	
+	RestClient app = new RestClient("http", "localhost", 8080, "RestExample/rest");
+	
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
+		users = app.getUserList();		
+		teams = app.getTeamList();
+		
 		VerticalLayout layout = new VerticalLayout();
-		RestClient app = new RestClient("http", "localhost", 8080, "RestExample/rest");
 
-		List<User> users = app.getUserList();
 		
 		HorizontalLayout tableLayout = new HorizontalLayout();
-		BeanItemContainer<User> ds = new BeanItemContainer<User>(User.class, users);
-		Grid grid = new Grid("Users", ds);
+		ds = new BeanItemContainer<User>(User.class, users);
+		grid = new Grid("Users", ds);
 		tableLayout.addComponent(grid);
 		grid.getColumn("username").setMinimumWidth(200);
 		grid.setColumnOrder("id", "username", "email");
+		grid.setImmediate(true);
 		
 		HeaderRow row = grid.prependHeaderRow();
 		row.join("username", "email").setHtml("<b>Editable</b>");
@@ -65,8 +77,8 @@ public class MyUI extends UI {
 		    e.getSource();   
 	    });
 
-		BeanItemContainer<Team> ds2 = new BeanItemContainer<Team>(Team.class, app.getTeamList());
-		Grid grid2 = new Grid("Teams", ds2);
+		ds2 = new BeanItemContainer<Team>(Team.class, teams);
+		grid2 = new Grid("Teams", ds2);
 		tableLayout.addComponent(grid2);
 
 		TextField username = new TextField("Username:");
@@ -83,6 +95,7 @@ public class MyUI extends UI {
 		Button addser = new Button("addUser");
 		addser.addClickListener(e -> {
 			app.addUser(user.getValue());
+			refreshData();
 		});
 		
 		Button update = new Button("update");
@@ -93,6 +106,7 @@ public class MyUI extends UI {
 			us.setUsername(username.getValue());
 			
 			app.updateUser(us);
+			refreshData();
 		});
 
 		layout.addComponent(tableLayout);
@@ -101,6 +115,18 @@ public class MyUI extends UI {
 		layout.setSpacing(true);
 
 		setContent(layout);
+	}
+
+	private void refreshData() {
+		users = app.getUserList();
+		ds.removeAllItems();
+		ds.addAll(users);
+		grid.markAsDirty();
+		
+		teams = app.getTeamList();
+		ds2.removeAllItems();
+		ds2.addAll(teams);
+		grid2.markAsDirty();
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
