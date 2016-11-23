@@ -18,6 +18,7 @@
 	<module>RestClient</module>
 	<module>VaadinWui</module>
 	<module>ExampleFrontendDelivery</module>
+	<module>CLIClient</module>
   </modules>
 
 </project>

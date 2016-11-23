@@ -18,6 +18,7 @@
 	<module>ExampleCommon</module>
 	<module>ExampleBackend</module>
 	<module>ExampleFrontend</module>
+	<module>ExampleDeliveryBundle</module>
   </modules>
 
 </project>
