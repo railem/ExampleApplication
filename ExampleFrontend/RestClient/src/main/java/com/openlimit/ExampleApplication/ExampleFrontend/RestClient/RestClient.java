@@ -63,4 +63,8 @@ public class RestClient {
 	public String updateUser(User user) {
 		return (String) rc.post("updateUser", "application/json", user, String.class);
 	}
+	
+	public boolean destinationReachable() {
+		return rc.destinationReachable();
+	}
 }
