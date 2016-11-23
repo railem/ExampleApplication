@@ -67,7 +67,7 @@ public class CLIClient {
 
 	private void listUsers() {
 		try {
-			List<User> users = rc.getUserList();
+			List<User> users = rc.getUserAsList();
 
 			System.out.println();
 			System.out.format("%3s | %17s | %24s\n", "ID", "USERNAME", "EMAIL");
