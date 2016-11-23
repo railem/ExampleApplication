@@ -1,5 +1,6 @@
 package com.openlimit.ExampleApplication.ExampleFrontend.CLIClient;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,14 +12,78 @@ public class CLIClient {
 
 	private RestClient rc;
 	private Scanner sc;
+	
+	private String protocol = "http";
+	private String host = "localhost";
+	private int port = 8080;
 
 	public static void main(String[] args) {
-		new CLIClient();
+		new CLIClient(args);
 	}
 
-	public CLIClient() {
-		rc = new RestClient("http", "localhost", 8080, "RestExample/rest");
+	public CLIClient(String[] args) {
+				
+		if(Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("-help")) {
+			showHelp();
+			System.exit(0);
+		}
+		
+		for(int i = 0; i < args.length; i += 2) {
+			switch (args[i]) {
+			case "-host":
+				if(!args[i+1].startsWith("-"))
+					host = args[i+1];
+				else	{
+					System.err.println("ERROR: unknown Value \"" +args[i+1] 
+							+ "\" for parameter \"" + args[i]);
+					System.exit(0);
+				}
+				break;
+				
+			case "-port":
+				if(!args[i+1].startsWith("-"))
+					try {
+						port = Integer.parseInt(args[i+1]);
+					} catch (NumberFormatException e) {
+						System.err.println("ERROR: unknown Value \"" +args[i+1] 
+								+ "\" for parameter \"" + args[i]);
+						System.err.println("ERROR: Port needs to be a number!");
+						System.exit(0);
+					}
+				else	{
+					System.err.println("ERROR: unknown Value \"" +args[i+1] 
+							+ "\" for parameter \"" + args[i]);
+					showHelp();
+					System.exit(0);
+				}
+				break;
+				
+			case "-protocol":
+				if(!args[i+1].startsWith("-"))
+					protocol = args[i+1];
+				else	{
+					System.err.println("ERROR: unknown Value \"" +args[i+1] 
+							+ "\" for parameter \"" + args[i]);
+					System.exit(0);
+				}
+				break;
+
+			default:
+				System.err.println("ERROR: unknown parameter \"" + args[i]);
+				System.exit(0);
+				break;
+			}
+				
+		}		
+		
+		rc = new RestClient(protocol, host, port, "RestExample/rest");
 		sc = new Scanner(System.in);
+		
+		if(!rc.destinationReachable()) {
+			System.err.println("ERROR: Destination " + protocol + "://" + host + ":" + port+ "/RestExample/rest" + " is not reachabe");
+			showHelp();
+			System.exit(0);
+		}
 
 		while (true) {
 			System.out.println("##########################");
@@ -28,8 +93,10 @@ public class CLIClient {
 			System.out.println("#    [T] - List Teams    #");
 			System.out.println("#    [A] - Add User      #");
 			System.out.println("#    [M] - Modify User   #");
+			System.out.println("#    [H] - Show Help     #");
 			System.out.println("#    [X] - Exit App      #");
 			System.out.println("##########################");
+			System.out.println();
 
 			switch (getUserInput().toUpperCase()) {
 			case "U":
@@ -48,6 +115,10 @@ public class CLIClient {
 				modUser();
 				break;
 
+			case "H":
+				showHelp();
+				break;
+				
 			case "X":
 				exitApp();
 				break;
@@ -58,6 +129,28 @@ public class CLIClient {
 			}
 
 		}
+	}
+
+	private void showHelp() {
+		System.out.println("#####################################################");
+		System.out.println("########     EXAMPLE-CLI-CLIENT - HELP       ########");
+		System.out.println("#####################################################");
+		System.out.println("#                                                   #");
+		System.out.println("# <<PARAMETERS>>                                    #");
+		System.out.println("#                                                   #");
+		System.out.println("# -host {VALUE}       (overrides default hostname)  #");
+		System.out.println("# -port {VALUE}       (overrides default port)      #");
+		System.out.println("# -protocol {VALUE}   (overrides default protocol)  #");
+		System.out.println("#                                                   #");
+		System.out.println("#---------------------------------------------------#");
+		System.out.println("#                          |#########################");
+		System.out.println("# <<DEFAULT VALUES>>       |#                       #");
+		System.out.println("#                          |#   EXAMPLE-CLI-CLIENT  #");
+		System.out.println("#  host : localhost        |#      Version 1.0      #");
+		System.out.println("#  port : 8080             |#        © 2016         #");
+		System.out.println("#  protocol : http         |#                       #");
+		System.out.println("#                          |#                       #");
+		System.out.println("#####################################################");
 	}
 
 	private String getUserInput() {
