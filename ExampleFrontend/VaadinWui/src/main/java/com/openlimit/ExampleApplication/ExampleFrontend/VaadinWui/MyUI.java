@@ -45,7 +45,7 @@ public class MyUI extends UI {
 	
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
-		users = app.getUserList();		
+		users = app.getUserAsList();		
 		teams = app.getTeamList();
 		
 		VerticalLayout layout = new VerticalLayout();
@@ -119,7 +119,7 @@ public class MyUI extends UI {
 	}
 
 	private void refreshData() {
-		users = app.getUserList();
+		users = app.getUserAsList();
 		ds.removeAllItems();
 		ds.addAll(users);
 		grid.markAsDirty();

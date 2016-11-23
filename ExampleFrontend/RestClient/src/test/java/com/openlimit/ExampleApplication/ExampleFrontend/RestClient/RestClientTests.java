@@ -97,7 +97,7 @@ public class RestClientTests {
                         .withDelay(new Delay(SECONDS, 1))
 	    );
 		
-		List<User> users = (List<User>) rc.getUserList();
+		List<User> users = (List<User>) rc.getUserAsList();
 		assertTrue(users.get(0).getUsername().equals("j.gurke"));
 	}
 	

@@ -36,7 +36,7 @@ public class RestClient {
 		rc = new RestConnector(protocol, host, port, context);
 	}
 
-	public List<User> getUserList(){
+	public List<User> getUserAsList(){
 
 		return (List<User>) rc.get("users", User.class);
 	}
