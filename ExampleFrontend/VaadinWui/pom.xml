@@ -21,7 +21,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- If there are no local customisations, this can also be "fetch" or "cdn" -->
-		<vaadin.widgetset.mode>local</vaadin.widgetset.mode>
+		<vaadin.widgetset.mode>fetch</vaadin.widgetset.mode>
 	</properties>
 
 	<repositories>
@@ -61,18 +61,6 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-server</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-push</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiled</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-themes</artifactId>
-		</dependency>
 <dependency>
         	<groupId>
         		com.openlimit.ExampleApplication.ExampleCommon
@@ -101,31 +89,12 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>update-theme</goal>
 							<goal>update-widgetset</goal>
 							<goal>compile</goal>
 							<!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
-							<goal>compile-theme</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<!-- Clean up also any pre-compiled themes -->
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/main/webapp/VAADIN/themes</directory>
-							<includes>
-								<include>**/styles.css</include>
-								<include>**/styles.scss.cache</include>
-							</includes>
-						</fileset>
-					</filesets>
-				</configuration>
 			</plugin>
 
 			<!-- The Jetty plugin allows us to easily test the development build by
