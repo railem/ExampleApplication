@@ -27,7 +27,7 @@
         		com.openlimit.ExampleApplication.ExampleCommon
         	</groupId>
 			<artifactId>ExampleCommon</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
