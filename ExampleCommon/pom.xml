@@ -4,11 +4,18 @@
 
 	<groupId>com.openlimit.ExampleApplication.ExampleCommon</groupId>
 	<artifactId>ExampleCommon</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>ExampleCommon</name>
 	<url>http://maven.apache.org</url>
+
+	<scm>
+		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
+		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
+		<url>http://github.com/railem/ExampleApplication</url>
+		<tag>HEAD</tag>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
