@@ -5,7 +5,6 @@
   <artifactId>CLIClient</artifactId>
   <name>CLIClient</name>
   <version>0.0.1-SNAPSHOT</version>
-  <url>http://maven.apache.org</url>
   <build>
     <plugins>
       <plugin>

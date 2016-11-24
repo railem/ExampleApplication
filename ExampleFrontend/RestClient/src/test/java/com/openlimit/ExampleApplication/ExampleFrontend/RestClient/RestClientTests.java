@@ -2,9 +2,6 @@ package com.openlimit.ExampleApplication.ExampleFrontend.RestClient;
 
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
