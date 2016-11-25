@@ -22,7 +22,7 @@
 		<groupId>com.openlimit.ExampleApplication</groupId>
 		<artifactId>ExampleBackend</artifactId>
 		<!--<relativePath>../ExampleBackendDelivery</relativePath>-->
-		<version>0.0.1</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
     <groupId>com.openlimit.ExampleApplication.ExampleBackend</groupId>
