@@ -29,7 +29,7 @@
         		com.openlimit.ExampleApplication.ExampleCommon
         	</groupId>
 			<artifactId>ExampleCommon</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>
