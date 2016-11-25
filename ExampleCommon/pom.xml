@@ -9,7 +9,7 @@
 
 	<groupId>com.openlimit.ExampleApplication.ExampleCommon</groupId>
 	<artifactId>ExampleCommon</artifactId>
-	<version>${com.openlimit.ExampleApplication.ExampleCommon.VERSION}</version>
+	<version>0.0.5</version>
 	<packaging>jar</packaging>
 
 	<name>ExampleCommon</name>
@@ -19,7 +19,7 @@
 		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
 		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
 		<url>http://github.com/railem/ExampleApplication</url>
-		<tag>HEAD</tag>
+		<tag>ExampleCommon-0.0.5</tag>
 	</scm>
 
 	<build>
