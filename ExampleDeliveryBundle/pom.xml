@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.openlimit.ExampleApplication</groupId>
 	<artifactId>ExampleDeliveryBundle</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 <scm>
 		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
 		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
 		<url>http://github.com/railem/ExampleApplication</url>
-	  <tag>HEAD</tag>
+	  <tag>ExampleDeliveryBundle-0.0.1</tag>
   </scm>
 
 	<build>
