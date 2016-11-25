@@ -51,7 +51,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.openlimit.ExampleApplication</groupId>
-			<artifactId>ExampleFrontend</artifactId>
+			<artifactId>ExampleFrontendEar</artifactId>
 			<version>0.0.1</version>
 			<type>ear</type>
 		</dependency> 
