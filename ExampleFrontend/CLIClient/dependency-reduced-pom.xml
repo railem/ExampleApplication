@@ -5,7 +5,20 @@
   <artifactId>CLIClient</artifactId>
   <name>CLIClient</name>
   <version>0.0.1-SNAPSHOT</version>
+  <scm>
+    <connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
+    <developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
+    <url>http://github.com/railem/ExampleApplication</url>
+  </scm>
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -38,6 +51,12 @@
       </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <repository>
+      <id>repository</id>
+      <url>file:///home/djedinger/releases</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
