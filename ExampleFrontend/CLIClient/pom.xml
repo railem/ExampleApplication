@@ -4,9 +4,8 @@
 
     <parent>
       <groupId>com.openlimit.ExampleApplication</groupId>
-      <artifactId>ExampleApplicationBuild</artifactId>
+      <artifactId>ExampleFrontendBuild</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-	  <relativePath>../../</relativePath>
     </parent>
 
 	<groupId>com.openlimit.ExampleApplication.ExampleFrontend</groupId>
