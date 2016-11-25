@@ -12,7 +12,7 @@
   <artifactId>ExampleBackendEar</artifactId>
   <packaging>ear</packaging>
 
-  <name>ExampleBackendDelivery</name>
+  <name>ExampleBackendEar</name>
   <url>http://maven.apache.org</url>
 
 	<scm>

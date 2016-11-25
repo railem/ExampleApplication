@@ -28,7 +28,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.openlimit.ExampleApplication</groupId>
-			<artifactId>ExampleBackend</artifactId>
+			<artifactId>ExampleBackendEar</artifactId>
 			<type>ear</type>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
