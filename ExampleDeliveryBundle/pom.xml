@@ -3,6 +3,14 @@
 	<groupId>com.openlimit.ExampleApplication</groupId>
 	<artifactId>ExampleDeliveryBundle</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+<scm>
+		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
+		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
+		<url>http://github.com/railem/ExampleApplication</url>
+	  <tag>HEAD</tag>
+  </scm>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -24,20 +32,36 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>com.openlimit.ExampleApplication</groupId>
 			<artifactId>ExampleBackendEar</artifactId>
 			<type>ear</type>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openlimit.ExampleApplication</groupId>
 			<artifactId>ExampleFrontend</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 			<type>ear</type>
 		</dependency> 
 	</dependencies>
 	<packaging>jar</packaging>
+
+	<distributionManagement>
+		<repository>
+			<id>repository</id>
+			<url>file:///home/djedinger/releases</url>
+		</repository>
+	</distributionManagement>
 </project>
