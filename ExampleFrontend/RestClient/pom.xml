@@ -67,7 +67,6 @@
 		</dependency>
 	</dependencies>
 
-  </modules>
 	<distributionManagement>
 		<repository>
 			<id>repository</id>
