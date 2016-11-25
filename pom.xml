@@ -4,7 +4,7 @@
 
   <groupId>com.openlimit.ExampleApplication</groupId>
   <artifactId>ExampleApplicationBuild</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>ExampleApplicationBuild</name>
@@ -12,9 +12,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<!-- ###################### MODULE VERSIONS ###################### -->
-	<!-- ####### COMMON -->
-		<com.openlimit.ExampleApplication.ExampleCommon.VERSION>0.0.6-SNAPSHOT</com.openlimit.ExampleApplication.ExampleCommon.VERSION>
   </properties>
 
   <modules>

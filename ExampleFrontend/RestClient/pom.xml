@@ -2,12 +2,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-      <groupId>com.openlimit.ExampleApplication</groupId>
-      <artifactId>ExampleFrontendBuild</artifactId>
-      <version>0.0.1</version>
-    </parent>
-
 	<groupId>com.openlimit.ExampleApplication.ExampleFrontend</groupId>
 	<artifactId>RestClient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -33,7 +27,7 @@
         		com.openlimit.ExampleApplication.ExampleCommon
         	</groupId>
 			<artifactId>ExampleCommon</artifactId>
-			<version>${com.openlimit.ExampleApplication.ExampleCommon.VERSION}</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
