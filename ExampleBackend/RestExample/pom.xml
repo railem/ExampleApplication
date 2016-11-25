@@ -20,7 +20,8 @@
 
 	<parent>
 		<groupId>com.openlimit.ExampleApplication</groupId>
-		<artifactId>ExampleBackendBuild</artifactId>
+		<artifactId>ExampleBackend</artifactId>
+		<!--<relativePath>../ExampleBackendDelivery</relativePath>-->
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 

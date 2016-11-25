@@ -4,16 +4,22 @@
 
 	<parent>
 		<groupId>com.openlimit.ExampleApplication</groupId>
-		<artifactId>ExampleBackendBuild</artifactId>
+		<artifactId>ExampleBackend</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
   <groupId>com.openlimit.ExampleApplication</groupId>
-  <artifactId>ExampleBackend</artifactId>
+  <artifactId>ExampleBackendEar</artifactId>
   <packaging>ear</packaging>
 
   <name>ExampleBackendDelivery</name>
   <url>http://maven.apache.org</url>
+
+	<scm>
+		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
+		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
+		<url>http://github.com/railem/ExampleApplication</url>
+	</scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,4 +61,11 @@
 	  <type>war</type>
     </dependency>
   </dependencies>
+
+<distributionManagement>
+		<repository>
+			<id>repository</id>
+			<url>file:///home/djedinger/releases</url>
+		</repository>
+	</distributionManagement>
 </project>
