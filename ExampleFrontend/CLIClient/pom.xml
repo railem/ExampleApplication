@@ -28,14 +28,14 @@
         		com.openlimit.ExampleApplication.ExampleCommon
         	</groupId>
 			<artifactId>ExampleCommon</artifactId>
-			<version>0.0.4</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>
         		com.openlimit.ExampleApplication.ExampleFrontend
         	</groupId>
 			<artifactId>RestClient</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
