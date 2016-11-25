@@ -3,7 +3,7 @@
 
   <groupId>com.openlimit.ExampleApplication</groupId>
   <artifactId>ExampleFrontendEar</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>ear</packaging>
 
   <name>ExampleFrontendEar</name>
@@ -13,7 +13,7 @@
 		<connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
 		<developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
 		<url>http://github.com/railem/ExampleApplication</url>
-	  <tag>ExampleFrontendEar-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
   <properties>
