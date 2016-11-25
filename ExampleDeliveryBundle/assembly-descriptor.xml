@@ -17,7 +17,7 @@
 		<dependencySet>
 			<unpack>false</unpack>
 			<includes>
-				<include>com.openlimit.ExampleApplication:ExampleBackend:ear
+				<include>com.openlimit.ExampleApplication:ExampleBackendEar:ear
 				</include>
 			</includes>
 			<outputDirectory>/dist/
@@ -27,7 +27,7 @@
 		<dependencySet>
             <unpack>false</unpack>
             <includes>
-                <include>com.openlimit.ExampleApplication:ExampleFrontend:ear
+                <include>com.openlimit.ExampleApplication:ExampleFrontendEar:ear
                 </include>
             </includes>
             <outputDirectory>/dist/

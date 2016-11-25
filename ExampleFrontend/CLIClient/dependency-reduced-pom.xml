@@ -4,11 +4,10 @@
   <groupId>com.openlimit.ExampleApplication.ExampleFrontend</groupId>
   <artifactId>CLIClient</artifactId>
   <name>CLIClient</name>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:http://github.com/railem/ExampleApplication.git</connection>
     <developerConnection>scm:git:http://github.com/railem/ExampleApplication.git</developerConnection>
-    <tag>CLIClient-0.0.1</tag>
     <url>http://github.com/railem/ExampleApplication</url>
   </scm>
   <build>
