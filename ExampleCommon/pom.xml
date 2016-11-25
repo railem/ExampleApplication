@@ -9,7 +9,7 @@
 
 	<groupId>com.openlimit.ExampleApplication.ExampleCommon</groupId>
 	<artifactId>ExampleCommon</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>${com.openlimit.ExampleApplication.ExampleCommon.VERSION}</version>
 	<packaging>jar</packaging>
 
 	<name>ExampleCommon</name>

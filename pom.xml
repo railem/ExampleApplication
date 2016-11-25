@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<!-- ###################### MODULE VERSIONS ###################### -->
 	<!-- ####### COMMON -->
-		<com.openlimit.ExampleApplication.ExampleCommon.VERSION>0.0.5-SNAPSHOT</com.openlimit.ExampleApplication.ExampleCommon.VERSION>
+		<com.openlimit.ExampleApplication.ExampleCommon.VERSION>0.0.6-SNAPSHOT</com.openlimit.ExampleApplication.ExampleCommon.VERSION>
   </properties>
 
   <modules>
