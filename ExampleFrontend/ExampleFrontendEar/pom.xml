@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.openlimit.ExampleApplication</groupId>
-  <artifactId>ExampleFrontend</artifactId>
+  <artifactId>ExampleFrontendEar</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>ear</packaging>
 
-  <name>ExampleFrontend</name>
+  <name>ExampleFrontendEar</name>
   <url>http://maven.apache.org</url>
 
   <properties>
